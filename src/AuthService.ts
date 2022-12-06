@@ -1,6 +1,12 @@
 import { Log, User, UserManager } from "oidc-client-ts";
 
-const clientRoot: string = "http://localhost:3000/";
+const clientRoot: string = `${window.location.origin}/`;
+
+// {
+//   "trinsic:ecosystem": "hersh-test",
+//   "trinsic:schema":
+//     "https://dev-schema.trinsic.cloud/hersh-test/zbettertemplate",
+// }
 
 export class AuthService {
   public userManager: UserManager;
@@ -9,7 +15,6 @@ export class AuthService {
     client_id: "verifier-oidc4vp-client",
     redirect_uri: `${clientRoot}callback.html`,
     silent_redirect_uri: `${clientRoot}silent-renew.html`,
-    // tslint:disable-next-line:object-literal-sort-keys
     post_logout_redirect_uri: `${clientRoot}`,
     response_type: "code",
     scope: "openid",
