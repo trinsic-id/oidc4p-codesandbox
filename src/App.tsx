@@ -4,7 +4,6 @@ import "./App.css";
 import { AppContent } from "./AppContent";
 
 import { AuthService, defaultAuthSettings } from "./AuthService";
-const authService = new AuthService(defaultAuthSettings);
 
 function App() {
   useEffect(() => {
@@ -13,6 +12,7 @@ function App() {
         //Note, if you are running React in Development mode this will be hit twice
         //as React mounts and unmounts the component twice for analysis.
         console.log("Callback received, signing in and redirecting");
+        const authService = new AuthService(window.TrinsicSettings);
         await authService.signinSilentCallback();
         (window as any).location = "index.html";
       } catch (e) {
@@ -35,7 +35,7 @@ function App() {
             <p>
               Verification Demo using <code>OIDC4VP</code>
             </p>
-            <AppContent authService={authService} />
+            <AppContent />
           </>
         )}
       </header>

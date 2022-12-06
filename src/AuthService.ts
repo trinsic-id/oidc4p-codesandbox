@@ -22,6 +22,12 @@ export const defaultAuthSettings = {
   },
 };
 
+declare global {
+  interface Window {
+    TrinsicSettings: typeof defaultAuthSettings;
+  }
+}
+
 export class AuthService {
   public userManager: UserManager;
   public settings: typeof defaultAuthSettings | undefined;

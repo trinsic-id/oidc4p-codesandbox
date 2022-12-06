@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { AuthService } from "./AuthService";
+import { AuthService, defaultAuthSettings } from "./AuthService";
 import { Token } from "./Token";
 
-interface AppContentProps {
-  authService: AuthService;
-}
-
-export const AppContent = ({ authService }: AppContentProps) => {
+export const AppContent = () => {
   const [token, setToken] = useState("");
   useEffect(() => {
     const getUser = async () => {
+      const authService = new AuthService(window.TrinsicSettings);
       const user = await authService.getUser();
       if (user === null) {
         console.error("Could not find user");
@@ -18,7 +15,7 @@ export const AppContent = ({ authService }: AppContentProps) => {
       setToken(JSON.stringify(user.profile._vp_token, null, 2));
     };
     //getUser();
-  }, [authService]);
+  }, []);
 
   const ref = useRef<any>();
 
@@ -31,6 +28,7 @@ export const AppContent = ({ authService }: AppContentProps) => {
     >
       <button
         onClick={async () => {
+          const authService = new AuthService(window.TrinsicSettings);
           const user = await authService.signinSilent(ref.current);
           if (user) setToken(JSON.stringify(user.profile._vp_token, null, 2));
         }}
