@@ -17,4 +17,5 @@ code {
 .oauth {
   height: 50vh;
   width: 30vw;
+  position: relative;
 }

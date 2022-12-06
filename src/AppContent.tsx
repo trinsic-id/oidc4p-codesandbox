@@ -6,7 +6,7 @@ export const AppContent = () => {
   const [token, setToken] = useState("");
   useEffect(() => {
     const getUser = async () => {
-      const authService = new AuthService(window.TrinsicSettings);
+      const authService = new AuthService(window.OIDCSettings);
       const user = await authService.getUser();
       if (user === null) {
         console.error("Could not find user");
@@ -17,19 +17,12 @@ export const AppContent = () => {
     //getUser();
   }, []);
 
-  const ref = useRef<any>();
-
   return (
-    <div
-      className="oauth"
-      ref={(_ref) => {
-        ref.current = _ref;
-      }}
-    >
+    <div id="oauth-frame" className="oauth">
       <button
         onClick={async () => {
-          const authService = new AuthService(window.TrinsicSettings);
-          const user = await authService.signinSilent(ref.current);
+          const authService = new AuthService(window.OIDCSettings);
+          const user = await authService.signinSilent();
           if (user) setToken(JSON.stringify(user.profile._vp_token, null, 2));
         }}
       >

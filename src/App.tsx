@@ -12,7 +12,7 @@ function App() {
         //Note, if you are running React in Development mode this will be hit twice
         //as React mounts and unmounts the component twice for analysis.
         console.log("Callback received, signing in and redirecting");
-        const authService = new AuthService(window.TrinsicSettings);
+        const authService = new AuthService(window.OIDCSettings);
         await authService.signinSilentCallback();
         (window as any).location = "index.html";
       } catch (e) {

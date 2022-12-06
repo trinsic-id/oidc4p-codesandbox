@@ -1,4 +1,4 @@
-import { Log, User, UserManager } from "./utils/oidc-client";
+import { Log, User, UserManager } from "trinsic-oidc-client-ts";
 
 const clientRoot: string = `${window.location.origin}/`;
 
@@ -24,7 +24,7 @@ export const defaultAuthSettings = {
 
 declare global {
   interface Window {
-    TrinsicSettings: typeof defaultAuthSettings;
+    OIDCSettings: typeof defaultAuthSettings;
   }
 }
 
@@ -33,7 +33,7 @@ export class AuthService {
   public settings: typeof defaultAuthSettings | undefined;
   constructor(settings: typeof defaultAuthSettings) {
     this.settings = settings;
-    this.userManager = new UserManager(this.settings);
+    this.userManager = new UserManager();
     Log.setLogger(console);
   }
 
@@ -67,10 +67,7 @@ export class AuthService {
   }
   public signinSilent(_parent?: any) {
     //  window.alert(`AuthService ${_parent}`);
-    return this.userManager.signinSilent(
-      { silentRequestTimeoutInSeconds: 600 },
-      _parent
-    );
+    return this.userManager.signinSilent();
     // window.alert(user);
   }
   public async signinSilentCallback() {
