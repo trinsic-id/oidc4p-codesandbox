@@ -1,31 +1,21 @@
-import { Log, UserManager} from "../../../../src";
+const Log = oidc.Log;
+console.log("Hey3");
+const UserManager = oidc.UserManager;
 
 Log.setLogger(console);
 Log.setLevel(Log.INFO);
 
-const url = window.location.origin + "/user-manager";
+function log() {
+  document.getElementById("out").innerText = "";
 
-export const settings = {
-    authority: "http://localhost:1234/oidc",
-    client_id: "js.tokenmanager",
-    redirect_uri: url + "/sample.html",
-    post_logout_redirect_uri: url + "/sample.html",
-    response_type: "code",
-    scope: "openid email roles",
+  Array.prototype.forEach.call(arguments, function (msg) {
+    if (msg instanceof Error) {
+      msg = "Error: " + msg.message;
+    } else if (typeof msg !== "string") {
+      msg = JSON.stringify(msg, null, 2);
+    }
+    document.getElementById("out").innerHTML += msg + "\r\n";
+  });
+}
 
-    response_mode: "fragment",
-
-    popup_redirect_uri: url + "/sample-popup-signin.html",
-    popup_post_logout_redirect_uri: url + "/sample-popup-signout.html",
-
-    silent_redirect_uri: url + "/sample-silent.html",
-    automaticSilentRenew: true,
-    //silentRequestTimeout: 10000,
-
-    filterProtocolClaims: true
-};
-
-export {
-    Log,
-    UserManager
-};
+export { Log, UserManager, log };

@@ -2,7 +2,11 @@
 <html>
   <head>
     <title>user-manager test</title>
-    <link rel="stylesheet" href="../app.css" />
+    <link rel="stylesheet" href="./app.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.1/dist/browser/oidc-client-ts.js"
+    ></script>
     <script>
       window.OIDCSettings = {
         authority: 'https://localhost:7266/',
@@ -25,6 +29,6 @@
   </head>
 
   <body>
-    <script defer type="module" src="./sample-silent.js"></script>
+    <script defer src="./sample-silent.js"></script>
   </body>
 </html>
