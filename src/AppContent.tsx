@@ -1,27 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AuthService } from "./AuthService";
 import { Token } from "./Token";
 
-export function AppContent(props: { authService: AuthService }) {
+interface AppContentProps {
+  authService: AuthService;
+}
+
+export const AppContent = ({ authService }: AppContentProps) => {
   const [token, setToken] = useState("");
   useEffect(() => {
     const getUser = async () => {
-      const user = await props.authService.getUser();
+      const user = await authService.getUser();
       if (user === null) {
         console.error("Could not find user");
         return;
       }
       setToken(JSON.stringify(user.profile._vp_token, null, 2));
     };
-    getUser();
-  }, [props.authService]);
+    //getUser();
+  }, [authService]);
+
+  const ref = useRef<any>();
+
   return (
-    <>
-      <button onClick={() => props.authService.login()}>
+    <div
+      className="oauth"
+      ref={(_ref) => {
+        ref.current = _ref;
+      }}
+    >
+      <button
+        onClick={async () => {
+          const user = await authService.signinSilent(ref.current);
+          if (user) setToken(JSON.stringify(user.profile._vp_token, null, 2));
+        }}
+      >
         Share Credential
       </button>
       <br />
       {token !== "" && <Token token={token} />}
-    </>
+    </div>
   );
-}
+};
