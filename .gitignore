@@ -130,3 +130,29 @@ dist
 .pnp.*
 
 .DS_Store
+
+
+
+# build artifacts
+*.tsbuildinfo
+/lib/
+/coverage/
+/docs/pages/
+
+**/dist/*
+/dist/esm/*
+!/dist/esm/package.json
+
+# caches
+.eslintcache
+.cache
+.parcel-cache/
+
+# dependencies
+node_modules/
+
+*.log
+.DS_Store
+.vscode/
+temp/
+.history/
