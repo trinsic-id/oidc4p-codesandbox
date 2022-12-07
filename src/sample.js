@@ -36,6 +36,10 @@ document
   .getElementById("iframeSignin")
   .addEventListener("click", iframeSignin, false);
 
+document
+  .getElementById("popUpSignIn")
+  .addEventListener("click", popupSignin, false);
+
 ///////////////////////////////
 // config
 ///////////////////////////////
