@@ -5,18 +5,17 @@
     <link rel="stylesheet" href="./App.css" />
     <script
       type="module"
-      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.1/dist/browser/oidc-client-ts.js"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.2/dist/browser/oidc-client-ts.js"
     ></script>
     <script>
       window.OIDCSettings = {
-        authority: 'https://connect.trinsic.cloud/',
+        authority: 'https://dev-connect.trinsic.cloud/',
         client_id: 'okie-dokie',
         redirect_uri: `${window.location.origin}/callback.html`,
         silent_redirect_uri: `${window.location.origin}/sample-silent.html`,
         silentRequestTimeoutInSeconds: 600,
         popup_redirect_uri: `${window.location.origin}/callback.html`,
         post_logout_redirect_uri: `${window.location.origin}/`,
-        silentRequestTimeoutInSeconds: 600,
         iframeHidden: false,
         parentElementId: 'iframeParent',
         response_type: 'code',
