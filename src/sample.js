@@ -140,6 +140,8 @@ function endSigninMainWindow() {
 }
 
 function popupSignin() {
+  removeUser();
+  clearState();
   mgr
     .signinPopup()
     .then(function (user) {
@@ -165,6 +167,7 @@ function popupSignout() {
 
 function iframeSignin() {
   removeUser();
+  clearState();
   mgr
     .signinSilent()
     .then(function (user) {
