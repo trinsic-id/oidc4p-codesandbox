@@ -65,31 +65,8 @@
         }
 
         ///////////////////////////////
-        // UI event handlers
-        ///////////////////////////////
-        document
-          .getElementById('clearState')
-          .addEventListener('click', clearState, false)
-        document
-          .getElementById('getUser')
-          .addEventListener('click', getUser, false)
-        document
-          .getElementById('removeUser')
-          .addEventListener('click', removeUser, false)
-
-        document
-          .getElementById('iframeSignin')
-          .addEventListener('click', iframeSignin, false)
-
-        document
-          .getElementById('popUpSignIn')
-          .addEventListener('click', popupSignin, false)
-
-        ///////////////////////////////
         // config
         ///////////////////////////////
-
-        console.log('Settings', window.OIDCSettings)
         const mgr = new UserManager(window.OIDCSettings)
 
         mgr.events.addUserLoaded(function (user) {
@@ -121,7 +98,7 @@
             })
         }
 
-        function getUser() {
+        const getUser = () => {
           mgr
             .getUser()
             .then(function (user) {
@@ -133,7 +110,7 @@
             })
         }
 
-        function removeUser() {
+        const removeUser = () => {
           mgr
             .removeUser()
             .then(function () {
@@ -145,7 +122,7 @@
             })
         }
 
-        function popupSignin() {
+        const popupSignin = () => {
           removeUser()
           clearState()
           mgr
@@ -159,7 +136,7 @@
             })
         }
 
-        function iframeSignin() {
+        const iframeSignin = () => {
           removeUser()
           clearState()
           mgr
@@ -172,6 +149,27 @@
               log(err)
             })
         }
+
+        ///////////////////////////////
+        // UI event handlers
+        ///////////////////////////////
+        document
+          .getElementById('clearState')
+          .addEventListener('click', clearState, false)
+        document
+          .getElementById('getUser')
+          .addEventListener('click', getUser, false)
+        document
+          .getElementById('removeUser')
+          .addEventListener('click', removeUser, false)
+
+        document
+          .getElementById('iframeSignin')
+          .addEventListener('click', iframeSignin, false)
+
+        document
+          .getElementById('popUpSignIn')
+          .addEventListener('click', popupSignin, false)
       })
     </script>
   </body>
