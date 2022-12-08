@@ -16,9 +16,8 @@
         window.OIDCSettings = {
           popup_redirect_uri: `${window.location.origin}/sample-popup-signin.html`,
         }
-
-        new window.oidc.UserManager()
-          .signinPopupCallback()
+        new window.oidc.UserManager(window.OIDCSettings)
+          .signinSilentCallback()
           .then(function () {
             log('signin popup callback response success')
           })
