@@ -5,9 +5,27 @@
     <link rel="stylesheet" href="./App.css" />
     <script
       type="module"
+      id="trinsic-oidc"
       src="https://unpkg.com/trinsic-oidc-client-ts@0.0.7/dist/browser/oidc-client-ts.js"
     ></script>
-    <script>
+  </head>
+  <body>
+    <div>
+      <a href="./index.html">clear url</a>
+    </div>
+    <div>
+      <button id="clearState">clear stale state</button>
+      <button id="getUser">get user</button>
+      <button id="removeUser">remove user</button>
+    </div>
+    <div>
+      <button id="iframeSignin">signin with iframe</button>
+      <button id="popUpSignIn">signin with popup</button>
+    </div>
+
+    <pre id="out"></pre>
+
+    <script async="false">
       window.OIDCSettings = {
         authority: 'https://dev-connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
@@ -26,29 +44,135 @@
             'https://dev-schema.trinsic.cloud/hersh-test/zbettertemplate',
         },
       }
+
+      document.querySelector('#trinsic-oidc').addEventListener('load', () => {
+        const Log = window.oidc.Log
+        const UserManager = window.oidc.UserManager
+
+        Log.setLogger(console)
+        Log.setLevel(Log.INFO)
+        function log() {
+          document.getElementById('out').innerText = ''
+
+          Array.prototype.forEach.call(arguments, function (msg) {
+            if (msg instanceof Error) {
+              msg = 'Error: ' + msg.message
+            } else if (typeof msg !== 'string') {
+              msg = JSON.stringify(msg, null, 2)
+            }
+            document.getElementById('out').innerHTML += msg + '\r\n'
+          })
+        }
+
+        ///////////////////////////////
+        // UI event handlers
+        ///////////////////////////////
+        document
+          .getElementById('clearState')
+          .addEventListener('click', clearState, false)
+        document
+          .getElementById('getUser')
+          .addEventListener('click', getUser, false)
+        document
+          .getElementById('removeUser')
+          .addEventListener('click', removeUser, false)
+
+        document
+          .getElementById('iframeSignin')
+          .addEventListener('click', iframeSignin, false)
+
+        document
+          .getElementById('popUpSignIn')
+          .addEventListener('click', popupSignin, false)
+
+        ///////////////////////////////
+        // config
+        ///////////////////////////////
+
+        console.log('Settings', window.OIDCSettings)
+        const mgr = new UserManager(window.OIDCSettings)
+
+        mgr.events.addUserLoaded(function (user) {
+          console.log('user loaded', user)
+          mgr.getUser().then(
+            function () {
+              console.log('getUser loaded user after userLoaded event fired')
+            },
+            () => {},
+          )
+        })
+
+        mgr.events.addUserUnloaded(function (e) {
+          console.log('user unloaded')
+        })
+
+        ///////////////////////////////
+        // functions for UI elements
+        ///////////////////////////////
+        function clearState() {
+          mgr
+            .clearStaleState()
+            .then(function () {
+              log('clearStateState success')
+            })
+            .catch(function (err) {
+              console.error(err)
+              log(err)
+            })
+        }
+
+        function getUser() {
+          mgr
+            .getUser()
+            .then(function (user) {
+              log('got user', user)
+            })
+            .catch(function (err) {
+              console.error(err)
+              log(err)
+            })
+        }
+
+        function removeUser() {
+          mgr
+            .removeUser()
+            .then(function () {
+              log('user removed')
+            })
+            .catch(function (err) {
+              console.error(err)
+              log(err)
+            })
+        }
+
+        function popupSignin() {
+          removeUser()
+          clearState()
+          mgr
+            .signinPopup()
+            .then(function (user) {
+              log('signed in', user)
+            })
+            .catch(function (err) {
+              console.error(err)
+              log(err)
+            })
+        }
+
+        function iframeSignin() {
+          removeUser()
+          clearState()
+          mgr
+            .signinSilent()
+            .then(function (user) {
+              log('signed in', user)
+            })
+            .catch(function (err) {
+              console.error(err)
+              log(err)
+            })
+        }
+      })
     </script>
-  </head>
-  <body>
-    <div>
-      <a href="./index.html">clear url</a>
-    </div>
-    <div>
-      <button id="clearState">clear stale state</button>
-      <button id="getUser">get user</button>
-      <button id="removeUser">remove user</button>
-    </div>
-    <div>
-      <button id="iframeSignin">signin with iframe</button>
-      <button id="popUpSignIn">signin with popup</button>
-    </div>
-
-    <pre id="out"></pre>
-
-    <a href="./sample-callback.html">a</a>
-    <a href="./sample-popup-signin.html">a</a>
-    <a href="./sample-popup-signout.html">a</a>
-    <a href="./sample-silent.html">a</a>
-
-    <script defer src="./sample.js"></script>
   </body>
 </html>
