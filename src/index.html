@@ -7,8 +7,7 @@
   <body>
     <div>
       <a href="./index.html">clear url</a>
-      <a class="hidden" href="./sample-silent-signin.html">clear url</a>
-      <a class="hidden" href="./sample-popup-signin.html">clear url</a>
+      <a class="hidden" href="./redirect.html">clear url</a>
     </div>
     <div>
       <button id="clearState">clear stale state</button>
@@ -31,8 +30,8 @@
       window.OIDCSettings = {
         authority: 'https://dev-connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
-        silent_redirect_uri: `${window.location.origin}/sample-silent-signin.html`,
-        popup_redirect_uri: `${window.location.origin}/sample-popup-signin.html`,
+        silent_redirect_uri: `${window.location.origin}/redirect.html`,
+        popup_redirect_uri: `${window.location.origin}/redirect.html`,
         silentRequestTimeoutInSeconds: 600,
         iframeHidden: false,
         response_type: 'code',

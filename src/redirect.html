@@ -13,19 +13,16 @@
     ></script>
     <script async="false" defer>
       document.querySelector('#trinsic-oidc').addEventListener('load', () => {
-        window.OIDCSettings = {
-          popup_redirect_uri: `${window.location.origin}/sample-popup-signin.html`,
+        window.OIDCSettings = {}
+        const popupCallback = async (userManager) =>
+          userManager.signinPopupCallback()
+        const iframeCallback = async (userManager) =>
+          userManager.signinSilentCallback()
+        const callback = (userManager) => {
+          popupCallback(userManager)
+          iframeCallback(userManager)
         }
-
-        new window.oidc.UserManager()
-          .signinPopupCallback()
-          .then(function () {
-            log('signin popup callback response success')
-          })
-          .catch(function (err) {
-            console.error(err)
-            log(err)
-          })
+        callback(new window.oidc.UserManager())
       })
     </script>
   </body>
