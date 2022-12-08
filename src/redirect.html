@@ -11,7 +11,7 @@
       id="trinsic-oidc"
       src="https://unpkg.com/trinsic-oidc-client-ts@0.0.9/dist/browser/oidc-client-ts.js"
     ></script>
-    <script async="false" defer>
+    <script>
       document.querySelector('#trinsic-oidc').addEventListener('load', () => {
         const popupCallback = async (userManager) =>
           userManager.signinPopupCallback()
