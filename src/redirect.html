@@ -9,11 +9,10 @@
     <script
       type="module"
       id="trinsic-oidc"
-      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.7/dist/browser/oidc-client-ts.js"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.9/dist/browser/oidc-client-ts.js"
     ></script>
     <script async="false" defer>
       document.querySelector('#trinsic-oidc').addEventListener('load', () => {
-        window.OIDCSettings = {}
         const popupCallback = async (userManager) =>
           userManager.signinPopupCallback()
         const iframeCallback = async (userManager) =>
