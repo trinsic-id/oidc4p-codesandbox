@@ -86,13 +86,13 @@
         ///////////////////////////////
         // functions for UI elements
         ///////////////////////////////
-        function clearState() {
+        const clearState = () => {
           mgr
             .clearStaleState()
-            .then(function () {
+            .then(() => {
               log('clearStateState success')
             })
-            .catch(function (err) {
+            .catch((err) => {
               console.error(err)
               log(err)
             })
@@ -101,10 +101,10 @@
         const getUser = () => {
           mgr
             .getUser()
-            .then(function (user) {
+            .then((user) => {
               log('got user', user)
             })
-            .catch(function (err) {
+            .catch((err) => {
               console.error(err)
               log(err)
             })
@@ -113,10 +113,10 @@
         const removeUser = () => {
           mgr
             .removeUser()
-            .then(function () {
+            .then(() => {
               log('user removed')
             })
-            .catch(function (err) {
+            .catch((err) => {
               console.error(err)
               log(err)
             })
@@ -127,10 +127,10 @@
           clearState()
           mgr
             .signinPopup()
-            .then(function (user) {
+            .then((user) => {
               log('signed in', user)
             })
-            .catch(function (err) {
+            .catch((err) => {
               console.error(err)
               log(err)
             })
@@ -141,10 +141,10 @@
           clearState()
           mgr
             .signinSilent()
-            .then(function (user) {
+            .then((user) => {
               log('signed in', user)
             })
-            .catch(function (err) {
+            .catch((err) => {
               console.error(err)
               log(err)
             })
@@ -170,6 +170,12 @@
         document
           .getElementById('popUpSignIn')
           .addEventListener('click', popupSignin, false)
+
+        ///////////////////////////////
+        // We can also just automatically
+        // start the iFrame login on page load
+        ///////////////////////////////
+        iframeSignin()
       })
     </script>
   </body>
