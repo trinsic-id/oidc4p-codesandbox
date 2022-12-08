@@ -4,6 +4,9 @@ pre {
     background-color: lightgray;
 }
 
+.hidden {
+    visibility: hidden;
+}
 
 .iframe-parent {
     height: 50vh;
