@@ -28,27 +28,9 @@
       src="https://unpkg.com/trinsic-oidc-client-ts@0.0.7/dist/browser/oidc-client-ts.js"
     ></script>
     <script>
-      window.OIDCSettings = {
-        authority: 'https://dev-connect.trinsic.cloud/',
-        client_id: `${window.location.origin}`,
-        silent_redirect_uri: `${window.location.origin}/sample-silent-signin.html`,
-        popup_redirect_uri: `${window.location.origin}/sample-popup-signin.html`,
-        silentRequestTimeoutInSeconds: 600,
-        iframeHidden: false,
-        response_type: 'code',
-        scope: 'openid',
-        prompt: undefined,
-        extraQueryParams: {
-          'trinsic:ecosystem': 'hersh-test',
-          'trinsic:schema':
-            'https://dev-schema.trinsic.cloud/hersh-test/zbettertemplate',
-        },
-      }
-
       document.querySelector('#trinsic-oidc').addEventListener('load', () => {
         const Log = window.oidc.Log
         const UserManager = window.oidc.UserManager
-
         Log.setLogger(console)
         Log.setLevel(Log.INFO)
         function log() {
@@ -63,82 +45,24 @@
             document.getElementById('out').innerHTML += msg + '\r\n'
           })
         }
-
-        ///////////////////////////////
-        // config
-        ///////////////////////////////
+        window.OIDCSettings = {
+          authority: 'https://dev-connect.trinsic.cloud/',
+          client_id: `${window.location.origin}`,
+          silent_redirect_uri: `${window.location.origin}/sample-silent-signin.html`,
+          popup_redirect_uri: `${window.location.origin}/sample-popup-signin.html`,
+          silentRequestTimeoutInSeconds: 600,
+          iframeHidden: false,
+          response_type: 'code',
+          scope: 'openid',
+          prompt: undefined,
+          extraQueryParams: {
+            'trinsic:ecosystem': 'hersh-test',
+            'trinsic:schema':
+              'https://dev-schema.trinsic.cloud/hersh-test/zbettertemplate',
+          },
+        }
         const mgr = new UserManager(window.OIDCSettings)
-
-        mgr.events.addUserLoaded(function (user) {
-          console.log('user loaded', user)
-          mgr.getUser().then(
-            function () {
-              console.log('getUser loaded user after userLoaded event fired')
-            },
-            () => {},
-          )
-        })
-
-        mgr.events.addUserUnloaded(function (e) {
-          console.log('user unloaded')
-        })
-
-        ///////////////////////////////
-        // functions for UI elements
-        ///////////////////////////////
-        const clearState = () => {
-          mgr
-            .clearStaleState()
-            .then(() => {
-              log('clearStateState success')
-            })
-            .catch((err) => {
-              console.error(err)
-              log(err)
-            })
-        }
-
-        const getUser = () => {
-          mgr
-            .getUser()
-            .then((user) => {
-              log('got user', user)
-            })
-            .catch((err) => {
-              console.error(err)
-              log(err)
-            })
-        }
-
-        const removeUser = () => {
-          mgr
-            .removeUser()
-            .then(() => {
-              log('user removed')
-            })
-            .catch((err) => {
-              console.error(err)
-              log(err)
-            })
-        }
-
-        const popupSignin = () => {
-          removeUser()
-          clearState()
-          mgr
-            .signinPopup()
-            .then((user) => {
-              log('signed in', user)
-            })
-            .catch((err) => {
-              console.error(err)
-              log(err)
-            })
-        }
-
         const iframeSignin = () => {
-          removeUser()
-          clearState()
           mgr
             .signinSilent()
             .then((user) => {
@@ -149,32 +73,6 @@
               log(err)
             })
         }
-
-        ///////////////////////////////
-        // UI event handlers
-        ///////////////////////////////
-        document
-          .getElementById('clearState')
-          .addEventListener('click', clearState, false)
-        document
-          .getElementById('getUser')
-          .addEventListener('click', getUser, false)
-        document
-          .getElementById('removeUser')
-          .addEventListener('click', removeUser, false)
-
-        document
-          .getElementById('iframeSignin')
-          .addEventListener('click', iframeSignin, false)
-
-        document
-          .getElementById('popUpSignIn')
-          .addEventListener('click', popupSignin, false)
-
-        ///////////////////////////////
-        // We can also just automatically
-        // start the iFrame login on page load
-        ///////////////////////////////
         iframeSignin()
       })
     </script>
