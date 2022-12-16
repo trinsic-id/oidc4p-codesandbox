@@ -28,7 +28,7 @@
     ></script>
     <script>
       window.OIDCSettings = {
-        authority: 'https://dev-connect.trinsic.cloud/',
+        authority: 'https://connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
         silent_redirect_uri: `${window.location.origin}/redirect.html`,
         popup_redirect_uri: `${window.location.origin}/redirect.html`,
@@ -38,9 +38,9 @@
         scope: 'openid',
         prompt: undefined,
         extraQueryParams: {
-          'trinsic:ecosystem': 'hersh-test',
+          'trinsic:ecosystem': 'test-oidc-hersh',
           'trinsic:schema':
-            'https://dev-schema.trinsic.cloud/hersh-test/zbettertemplate',
+            'https://schema.trinsic.cloud/test-oidc-hersh/test-oidc',
         },
       }
 
