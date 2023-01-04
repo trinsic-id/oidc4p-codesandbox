@@ -24,11 +24,11 @@
     <script
       type="module"
       id="trinsic-oidc"
-      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.18/dist/browser/oidc-client-ts.js"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.26/dist/browser/oidc-client-ts.js"
     ></script>
     <script>
       window.OIDCSettings = {
-        authority: 'https://connect.trinsic.cloud/',
+        authority: 'https://localhost:7266/',
         client_id: `${window.location.origin}`,
         silentRequestTimeoutInSeconds: 600,
         iframeHidden: false,
@@ -36,9 +36,10 @@
         scope: 'openid',
         prompt: undefined,
         extraQueryParams: {
-          'trinsic:ecosystem': 'test-oidc-hersh',
+          'trinsic:ecosystem': 'test-ecosystem-12131',
           'trinsic:schema':
-            'https://schema.trinsic.cloud/test-oidc-hersh/test-oidc',
+            'https://dev-schema.trinsic.cloud/test-ecosystem-12131/test',
+          'trinsic:mode': 'silent',
         },
       }
 
