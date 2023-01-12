@@ -2,13 +2,164 @@
 <html>
   <head>
     <title>Trinsic OIDC Tester</title>
-    <link rel="stylesheet" href="./App.css" />
+    <style>
+      .micromodal-slide .modal__container,
+      .micromodal-slide .modal__overlay,
+      .modal__btn {
+        will-change: transform;
+      }
+      pre {
+        padding: 10px;
+        width: 100%;
+        background-color: #d3d3d3;
+      }
+      .hidden {
+        visibility: hidden;
+      }
+      .iframe-parent {
+        height: 50vh;
+        width: 50vw;
+        background-color: #0ff;
+        position: relative;
+      }
+      .modal {
+        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+          helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial,
+          sans-serif;
+      }
+      .modal__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal__container {
+        background-color: #fff;
+        padding: 30px;
+        max-width: 500px;
+        max-height: 100vh;
+        border-radius: 4px;
+        overflow-y: auto;
+        box-sizing: border-box;
+      }
+      .modal__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal__title {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.25;
+        color: #00449e;
+        box-sizing: border-box;
+      }
+      .modal__close {
+        background: 0 0;
+        border: 0;
+      }
+      .modal__header .modal__close:before {
+        content: '\2715';
+      }
+      .modal__content {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.8);
+        height: 50vh;
+        width: 50vw;
+      }
+      .modal__btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        background-color: #e6e6e6;
+        color: rgba(0, 0, 0, 0.8);
+        border-radius: 0.25rem;
+        border-style: none;
+        border-width: 0;
+        cursor: pointer;
+        -webkit-appearance: button;
+        text-transform: none;
+        overflow: visible;
+        line-height: 1.15;
+        margin: 0;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        transition: transform 0.25s ease-out;
+        transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+      }
+      .modal__btn:focus,
+      .modal__btn:hover {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+      }
+      .modal__btn-primary {
+        background-color: #00449e;
+        color: #fff;
+      }
+      @keyframes mmfadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes mmfadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      @keyframes mmslideIn {
+        from {
+          transform: translateY(15%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes mmslideOut {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-10%);
+        }
+      }
+      .micromodal-slide {
+        display: none;
+      }
+      .micromodal-slide.is-open {
+        display: block;
+      }
+      .micromodal-slide[aria-hidden='false'] .modal__overlay {
+        animation: 0.3s cubic-bezier(0, 0, 0.2, 1) mmfadeIn;
+      }
+      .micromodal-slide[aria-hidden='false'] .modal__container {
+        animation: 0.3s cubic-bezier(0, 0, 0.2, 1) mmslideIn;
+      }
+      .micromodal-slide[aria-hidden='true'] .modal__overlay {
+        animation: 0.3s cubic-bezier(0, 0, 0.2, 1) mmfadeOut;
+      }
+      .micromodal-slide[aria-hidden='true'] .modal__container {
+        animation: 0.3s cubic-bezier(0, 0, 0.2, 1) mmslideOut;
+      }
+    </style>
   </head>
   <body>
-    <div>
-      <a href="./index.html">clear url</a>
-      <a class="hidden" href="./redirect.html">clear url</a>
-    </div>
     <div>
       <button id="clearState">clear stale state</button>
       <button id="getUser">get user</button>
@@ -24,11 +175,11 @@
     <script
       type="module"
       id="trinsic-oidc"
-      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.26/dist/browser/oidc-client-ts.js"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.28/dist/browser/oidc-client-ts.js"
     ></script>
     <script>
       window.OIDCSettings = {
-        authority: 'https://localhost:7266/',
+        authority: 'https://connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
         silentRequestTimeoutInSeconds: 600,
         iframeHidden: false,
@@ -36,10 +187,10 @@
         scope: 'openid',
         prompt: undefined,
         extraQueryParams: {
-          'trinsic:ecosystem': 'test-ecosystem-12131',
+          'trinsic:ecosystem': 'test-oidc-hersh',
           'trinsic:schema':
-            'https://dev-schema.trinsic.cloud/test-ecosystem-12131/test',
-          'trinsic:mode': 'silent',
+            'https://schema.trinsic.cloud/test-oidc-hersh/test-oidc',
+          'trinsic:mode': 'popup',
         },
       }
 
