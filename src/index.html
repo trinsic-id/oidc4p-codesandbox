@@ -2,6 +2,23 @@
 <html>
   <head>
     <title>Trinsic OIDC Tester</title>
+    <script>
+      window.OIDCSettings = {
+        authority: 'https://connect.trinsic.cloud/',
+        client_id: `${window.location.origin}`,
+        silentRequestTimeoutInSeconds: 600,
+        iframeHidden: false,
+        response_type: 'code',
+        scope: 'openid',
+        prompt: undefined,
+        extraQueryParams: {
+          'trinsic:ecosystem': 'okiedoke',
+          'trinsic:schema':
+            'https://schema.trinsic.cloud/okiedoke/food-salvager-license',
+          'trinsic:mode': 'popup',
+        },
+      }
+    </script>
     <style>
       .micromodal-slide .modal__container,
       .micromodal-slide .modal__overlay,
@@ -172,29 +189,8 @@
 
     <pre id="out"></pre>
 
-    <script
-      type="module"
-      id="trinsic-oidc"
-      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.28/dist/browser/oidc-client-ts.js"
-    ></script>
     <script>
-      window.OIDCSettings = {
-        authority: 'https://connect.trinsic.cloud/',
-        client_id: `${window.location.origin}`,
-        silentRequestTimeoutInSeconds: 600,
-        iframeHidden: false,
-        response_type: 'code',
-        scope: 'openid',
-        prompt: undefined,
-        extraQueryParams: {
-          'trinsic:ecosystem': 'test-oidc-hersh',
-          'trinsic:schema':
-            'https://schema.trinsic.cloud/test-oidc-hersh/test-oidc',
-          'trinsic:mode': 'popup',
-        },
-      }
-
-      document.querySelector('#trinsic-oidc').addEventListener('load', () => {
+      window.initOidc = () => {
         const Log = window.oidc.Log
         const UserManager = window.oidc.UserManager
 
@@ -325,7 +321,12 @@
         // start the iFrame login on page load
         ///////////////////////////////
         iframeSignin()
-      })
+      }
     </script>
+    <script
+      onload="window.initOidc();"
+      id="trinsic-oidc"
+      src="https://unpkg.com/trinsic-oidc-client-ts@0.0.28/dist/browser/oidc-client-ts.js"
+    ></script>
   </body>
 </html>
