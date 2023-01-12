@@ -10,7 +10,6 @@
           'trinsic:ecosystem': 'okiedoke',
           'trinsic:schema':
             'https://schema.trinsic.cloud/okiedoke/food-salvager-license',
-          'trinsic:mode': 'popup',
         },
       }
     </script>
@@ -207,6 +206,7 @@
         ///////////////////////////////
         // config
         ///////////////////////////////
+        window.OIDCSettings.extraQueryParams['trinsic:mode'] = 'popup'
         const mgr = new UserManager(window.OIDCSettings)
 
         mgr.events.addUserLoaded(function (user) {
