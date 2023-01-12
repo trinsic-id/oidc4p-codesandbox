@@ -6,11 +6,6 @@
       window.OIDCSettings = {
         authority: 'https://connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
-        silentRequestTimeoutInSeconds: 600,
-        iframeHidden: false,
-        response_type: 'code',
-        scope: 'openid',
-        prompt: undefined,
         extraQueryParams: {
           'trinsic:ecosystem': 'okiedoke',
           'trinsic:schema':
