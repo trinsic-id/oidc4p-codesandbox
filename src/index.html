@@ -6,10 +6,11 @@
       window.OIDCSettings = {
         authority: 'https://connect.trinsic.cloud/',
         client_id: `${window.location.origin}`,
+        silentRequestTimeoutInSeconds: 600,
         extraQueryParams: {
-          'trinsic:ecosystem': 'okiedoke',
+          'trinsic:ecosystem': 'okeydoke',
           'trinsic:schema':
-            'https://schema.trinsic.cloud/okiedoke/food-salvager-license',
+            'https://schema.trinsic.cloud/okeydoke/foodsalvagerlicense',
         },
       }
     </script>
@@ -311,11 +312,11 @@
           .getElementById('popUpSignIn')
           .addEventListener('click', popupSignin, false)
 
-        ///////////////////////////////
-        // We can also just automatically
-        // start the iFrame login on page load
-        ///////////////////////////////
-        iframeSignin()
+        // ///////////////////////////////
+        // // We can also just automatically
+        // // start the iFrame login on page load
+        // ///////////////////////////////
+        // iframeSignin()
       }
     </script>
     <script
