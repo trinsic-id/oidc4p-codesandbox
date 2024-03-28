@@ -8,7 +8,7 @@
     "server": "node ./server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "jsrsasign": "^10.5.27",
     "micromodal": "^0.4.10"
   },
